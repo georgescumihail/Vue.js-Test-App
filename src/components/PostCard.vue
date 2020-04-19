@@ -16,8 +16,8 @@ export default {
 
 <style scoped>
 .post-container {
-  width: 220px;
-  height: 220px;
+  width: 210px;
+  height: 250px;
   display: inline-block;
   padding: 15px;
   border: 1px solid #ccc;

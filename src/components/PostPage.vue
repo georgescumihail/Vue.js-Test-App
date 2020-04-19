@@ -2,7 +2,15 @@
   <div id="post-page-container">
     <router-link class="back-link" :to="{ name: 'home' }">Back</router-link>
     <div v-if="post != null" id="post-container">
-      <div id="post-title">{{post.title}}</div>
+      <div id="post-title">
+        {{post.title}}
+        <span id="title-by">by</span>
+        <router-link
+          id="post-author"
+          :to="{ name: 'user', params: { id: author.id} }">
+          {{author.name}}
+        </router-link>
+      </div>
       <div id="post-body">{{post.body}}</div>
       <div id="post-comments">
         <div v-if="comments != null" id="comments-header">Comments:</div>
@@ -26,19 +34,18 @@ export default {
   data() {
     return {
       post: null,
-      comments: null
+      comments: null,
+      author: {}
     };
   },
   created() {
-    axios
-      .get(
-        "https://jsonplaceholder.typicode.com/posts/" + this.$route.params.id
-      )
-      .then(res => (this.post = res.data));
-    axios
-      .get(
-        `https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}/comments`
-      )
+    axios.get("https://jsonplaceholder.typicode.com/posts/" + this.$route.params.id)
+      .then(res => (this.post = res.data))
+      .then(() => axios.get("https://jsonplaceholder.typicode.com/users/" + this.post.userId)
+          .then(res => (this.author = res.data))
+      );
+
+    axios.get(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}/comments`)
       .then(res => (this.comments = res.data));
   }
 };
@@ -52,6 +59,16 @@ export default {
 }
 #post-page-container {
   padding: 20px;
+}
+#post-author {
+  font-weight: bold;
+  color: #4ac28c;
+  font-size: 20px;
+  margin: 5px;
+}
+#title-by{
+  font-weight: normal;
+  font-size: 16px;
 }
 #post-title {
   font-weight: bold;

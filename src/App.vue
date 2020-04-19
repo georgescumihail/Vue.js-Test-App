@@ -20,7 +20,7 @@ export default {
 
 <style>
 #main-container {
-  width: 80%;
+  width: 75%;
   margin: 0 auto;
   background-color: #f9f9f9;
   font-family: Arial, Helvetica, sans-serif;
